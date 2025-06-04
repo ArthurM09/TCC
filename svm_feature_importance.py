@@ -8,13 +8,13 @@ import time
 
 # Carregar os dados preparados no "prepare_data_with_filtering.py"
 print("Carregando os dados preparados...")
-X_train = np.load('/Users/arthu/TCC2/dados_preparados/X_train.npy')
-X_test = np.load('/Users/arthu/TCC2/dados_preparados/X_test.npy')
-y_train = np.load('/Users/arthu/TCC2/dados_preparados/y_train.npy', allow_pickle=True)
-y_test = np.load('/Users/arthu/TCC2/dados_preparados/y_test.npy', allow_pickle=True)
+X_train = np.load('/Users/arthu/GitHub/TCC/dados_preparados/X_train.npy')
+X_test = np.load('/Users/arthu/GitHub/TCC/dados_preparados/X_test.npy')
+y_train = np.load('/Users/arthu/GitHub/TCC/dados_preparados/y_train.npy', allow_pickle=True)
+y_test = np.load('/Users/arthu/GitHub/TCC/dados_preparados/y_test.npy', allow_pickle=True)
 
 # Carregar nomes das features
-with open("/Users/arthu/TCC2/dados_preparados/feature_names.txt", "r") as f:
+with open("/Users/arthu/GitHub/TCC/dados_preparados/feature_names.txt", "r") as f:
     feature_names = [line.strip() for line in f.readlines()]
 
 print(f"Dados carregados: {X_train.shape[0]} amostras de treino, {X_test.shape[0]} amostras de teste")
@@ -23,7 +23,7 @@ print(f"Features: {feature_names}")
 # Carregar o modelo SVM treinado
 print("\nCarregando o modelo SVM treinado...")
 try:
-    with open("/Users/arthu/TCC2/modelos/svm_model.pkl", "rb") as f:
+    with open("/Users/arthu/GitHub/TCC/modelos/svm_model.pkl", "rb") as f:
         svm_model = pickle.load(f)
     print("Modelo SVM carregado com sucesso.")
 except FileNotFoundError:
@@ -68,11 +68,11 @@ plt.title('Importância das Features - SVM (Permutation Importance)')
 plt.xlabel('Diminuição média na acurácia')
 plt.ylabel('Feature')
 plt.tight_layout()
-plt.savefig("/Users/arthu/TCC2/images/svm/svm_feature_importance.png", dpi=300)
+plt.savefig("/Users/arthu/GitHub/TCC/images/svm/svm_feature_importance.png", dpi=300)
 print("\nGráfico de importância das features salvo como 'svm_feature_importance.png'")
 
 # Salvar os resultados em um arquivo CSV
-importance_df.to_csv("/Users/arthu/TCC2/dados_preparados/svm/svm_feature_importance.csv", index=False)
+importance_df.to_csv("/Users/arthu/GitHub/TCC/dados_preparados/svm/svm_feature_importance.csv", index=False)
 print("Resultados salvos em 'svm_feature_importance.csv'")
 
 print("\nProcesso concluído com sucesso!")

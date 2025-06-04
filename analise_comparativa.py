@@ -78,62 +78,64 @@ def extract_metrics_from_report(report_text):
     }
 
 # Ler os relatórios
-with open('/Users/arthu/TCC2/relatorios/dt_report.txt', 'r') as f:
+with open('/Users/arthu/GitHub/TCC/relatorios/dt_report.txt', 'r') as f:
     dt_report = f.read()
 
-with open('/Users/arthu/TCC2/relatorios/svm_report.txt', 'r') as f:
+with open('/Users/arthu/GitHub/TCC/relatorios/svm_report.txt', 'r') as f:
     svm_report = f.read()
 
-with open('/Users/arthu/TCC2/relatorios/mlp_report.txt', 'r') as f:
+with open('/Users/arthu/GitHub/TCC/relatorios/mlp_report.txt', 'r') as f:
     mlp_report = f.read()
 
 # Extrair métricas manualmente para garantir
 dt_metrics = {
-    'accuracy': 0.5270,
-    'macro_precision': 0.18,
-    'macro_recall': 0.26,
-    'macro_f1': 0.18,
-    'weighted_precision': 0.50,
-    'weighted_recall': 0.53,
-    'weighted_f1': 0.49,
+    'accuracy': 0.4868,
+    'macro_precision': 0.11,
+    'macro_recall': 0.13,
+    'macro_f1': 0.12,
+    'weighted_precision': 0.38,
+    'weighted_recall': 0.49,
+    'weighted_f1': 0.42,
     'class_metrics': {
-        'presentation': {'precision': 0.80, 'recall': 0.76, 'f1': 0.78, 'support': 95},
-        'link': {'precision': 0.71, 'recall': 0.94, 'f1': 0.81, 'support': 16},
-        'tab': {'precision': 0.53, 'recall': 0.75, 'f1': 0.62, 'support': 12},
-        'heading': {'precision': 0.42, 'recall': 0.91, 'f1': 0.57, 'support': 11},
-        'button': {'precision': 0.70, 'recall': 0.37, 'f1': 0.48, 'support': 19}
+        'presentation': {'precision': 0.46, 'recall': 0.69, 'f1': 0.55, 'support': 266},
+        'cell': {'precision': 0.62, 'recall': 0.45, 'f1': 0.53, 'support': 11},
+        'group': {'precision': 0.71, 'recall': 0.68, 'f1': 0.69, 'support': 103},
+        'img': {'precision': 0.45, 'recall': 0.78, 'f1': 0.57, 'support': 142},
+        'listitem': {'precision': 0.87, 'recall': 0.77, 'f1': 0.82, 'support': 113},
+        'button': {'precision': 0.48, 'recall': 0.56, 'f1': 0.52, 'support': 225}
     }
 }
 
 svm_metrics = {
-    'accuracy': 0.4191,
-    'macro_precision': 0.10,
-    'macro_recall': 0.10,
-    'macro_f1': 0.09,
-    'weighted_precision': 0.26,
-    'weighted_recall': 0.42,
-    'weighted_f1': 0.31,
+    'accuracy': 0.3852,
+    'macro_precision': 0.20,
+    'macro_recall': 0.12,
+    'macro_f1': 0.12,
+    'weighted_precision': 0.37,
+    'weighted_recall': 0.39,
+    'weighted_f1': 0.34,
     'class_metrics': {
-        'presentation': {'precision': 0.45, 'recall': 0.89, 'f1': 0.60, 'support': 95},
-        'tabpanel': {'precision': 0.44, 'recall': 0.44, 'f1': 0.44, 'support': 9},
-        'region': {'precision': 0.38, 'recall': 0.60, 'f1': 0.46, 'support': 5},
-        'list': {'precision': 0.67, 'recall': 0.25, 'f1': 0.36, 'support': 8},
-        'button': {'precision': 0.33, 'recall': 0.26, 'f1': 0.29, 'support': 19}
+        'presentation': {'precision': 0.31, 'recall': 0.76, 'f1': 0.44, 'support': 266},
+        'tabpanel': {'precision': 0.50, 'recall': 0.27, 'f1': 0.35, 'support': 33},
+        'group': {'precision': 0.73, 'recall': 0.50, 'f1': 0.60, 'support': 103},
+        'list': {'precision': 0.50, 'recall': 0.13, 'f1': 0.21, 'support': 31},
+        'link': {'precision': 0.86, 'recall': 0.22, 'f1': 0.35, 'support': 27},
+        'button': {'precision': 0.32, 'recall': 0.20, 'f1': 0.24, 'support': 225}
     }
 }
 
 mlp_metrics = {
-    'accuracy': 0.4191,
-    'macro_precision': 0.06,
-    'macro_recall': 0.07,
-    'macro_f1': 0.06,
-    'weighted_precision': 0.19,
-    'weighted_recall': 0.42,
-    'weighted_f1': 0.26,
+    'accuracy': 0.4708,
+    'macro_precision': 0.35,
+    'macro_recall': 0.22,
+    'macro_f1': 0.24,
+    'weighted_precision': 0.48,
+    'weighted_recall': 0.47,
+    'weighted_f1': 0.44,
     'class_metrics': {
-        'presentation': {'precision': 0.41, 'recall': 1.00, 'f1': 0.59, 'support': 95},
-        'tabpanel': {'precision': 0.57, 'recall': 0.44, 'f1': 0.50, 'support': 9},
-        'region': {'precision': 0.40, 'recall': 0.40, 'f1': 0.40, 'support': 5}
+        'presentation': {'precision': 0.36, 'recall': 0.68, 'f1': 0.48, 'support': 266},
+        'tabpanel': {'precision': 0.48, 'recall': 0.30, 'f1': 0.37, 'support': 33},
+        'region': {'precision': 0.30, 'recall': 0.31, 'f1': 0.30, 'support': 26}
     }
 }
 
@@ -156,7 +158,7 @@ comparison_df = pd.DataFrame({
 })
 
 # Salvar a tabela de comparação
-comparison_df.to_csv('/Users/arthu/TCC2/resultados/algoritmos_comparacao.csv', index=False)
+comparison_df.to_csv('/Users/arthu/GitHub/TCC/resultados/algoritmos_comparacao.csv', index=False)
 
 # Criar gráfico de barras para comparação de acurácia
 plt.figure(figsize=(10, 6))
@@ -169,7 +171,7 @@ plt.ylim(0, 0.6)  # Ajustado para melhor visualização
 for i, v in enumerate(accuracies):
     plt.text(i, v + 0.02, f'{v:.4f}', ha='center', fontsize=12)
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/resultados/comparacao_acuracia.png', dpi=300)
+plt.savefig('/Users/arthu/GitHub/TCC/resultados/comparacao_acuracia.png', dpi=300)
 
 # Criar gráfico de barras para comparação de F1-Score (weighted)
 plt.figure(figsize=(10, 6))
@@ -181,7 +183,7 @@ plt.ylim(0, 0.6)  # Ajustado para melhor visualização
 for i, v in enumerate(f1_scores):
     plt.text(i, v + 0.02, f'{v:.4f}', ha='center', fontsize=12)
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/resultados/comparacao_f1_score.png', dpi=300)
+plt.savefig('/Users/arthu/GitHub/TCC/resultados/comparacao_f1_score.png', dpi=300)
 
 # Criar gráfico de radar para comparação de métricas
 metrics = ['Acurácia', 'Precisão\n(Weighted)', 'Recall\n(Weighted)', 'F1-Score\n(Weighted)']
@@ -201,7 +203,7 @@ radar_df = pd.DataFrame({
 })
 
 # Salvar os dados do radar
-radar_df.to_csv('/Users/arthu/TCC2/resultados/radar_data.csv', index=False)
+radar_df.to_csv('/Users/arthu/GitHub/TCC/resultados/radar_data.csv', index=False)
 
 # Identificar as classes com melhor desempenho em cada algoritmo
 def get_top_classes(metrics, n=5):
@@ -253,7 +255,7 @@ for i, (class_name, metrics) in enumerate(mlp_top_classes):
         })
 
 top_classes_df = pd.DataFrame(top_classes_data)
-top_classes_df.to_csv('/Users/arthu/TCC2/resultados/melhores_classes.csv', index=False)
+top_classes_df.to_csv('/Users/arthu/GitHub/TCC/resultados/melhores_classes.csv', index=False)
 
 # Criar um gráfico de barras para as classes com melhor F1-score em cada algoritmo
 plt.figure(figsize=(14, 8))
@@ -300,7 +302,7 @@ for i, v in enumerate(mlp_f1[:len(dt_classes)]):
         ax.text(i + width, v + 0.02, f'{v:.2f}', ha='center', va='bottom', fontsize=9)
 
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/resultados/melhores_classes_f1.png', dpi=300)
+plt.savefig('/Users/arthu/GitHub/TCC/resultados/melhores_classes_f1.png', dpi=300)
 
 # Criar gráfico de barras para comparação de precisão, recall e f1 para a classe 'presentation'
 plt.figure(figsize=(12, 6))
@@ -343,7 +345,7 @@ for i, v in enumerate(mlp_presentation):
 
 plt.ylim(0, 1.1)
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/resultados/presentation_class_comparison.png', dpi=300)
+plt.savefig('/Users/arthu/GitHub/TCC/resultados/presentation_class_comparison.png', dpi=300)
 
 print("Análise comparativa concluída. Arquivos gerados:")
 print("1. algoritmos_comparacao.csv - Tabela comparativa das métricas gerais")

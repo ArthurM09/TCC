@@ -1,0 +1,8 @@
+Métrica,Árvore de Decisão,SVM,MLP
+Acurácia,0.4868,0.3852,0.4708
+"Precisão
+(Weighted)",0.38,0.37,0.48
+"Recall
+(Weighted)",0.49,0.39,0.47
+"F1-Score
+(Weighted)",0.42,0.34,0.44

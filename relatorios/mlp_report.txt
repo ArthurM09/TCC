@@ -1,0 +1,46 @@
+Acurácia: 0.4708
+
+Relatório de classificação:
+              precision    recall  f1-score   support
+
+                   0.00      0.00      0.00         4
+       alert       0.00      0.00      0.00         7
+ alertdialog       0.00      0.00      0.00         2
+      banner       0.25      0.20      0.22         5
+      button       0.44      0.35      0.39       225
+        cell       1.00      0.18      0.31        11
+    combobox       0.33      0.29      0.31         7
+ contentinfo       0.00      0.00      0.00         4
+      dialog       0.31      0.24      0.27        33
+    document       0.00      0.00      0.00         3
+       group       0.69      0.64      0.66       103
+     heading       1.00      0.04      0.08        24
+         img       0.61      0.61      0.61       142
+        link       0.86      0.22      0.35        27
+        list       0.64      0.23      0.33        31
+     listbox       0.00      0.00      0.00         6
+    listitem       0.69      0.66      0.68       113
+        main       0.40      0.67      0.50         6
+        menu       0.26      0.28      0.27        18
+    menuitem       0.52      0.82      0.64       107
+  navigation       0.00      0.00      0.00         5
+        none       0.00      0.00      0.00        15
+      option       0.38      0.31      0.34        16
+       other       0.00      0.00      0.00        10
+presentation       0.36      0.68      0.48       266
+      region       0.30      0.31      0.30        26
+        role       0.00      0.00      0.00         3
+         row       0.67      0.67      0.67         3
+      search       1.00      0.14      0.25         7
+   separator       0.00      0.00      0.00         6
+      slider       0.00      0.00      0.00         3
+      status       0.00      0.00      0.00         6
+      switch       0.00      0.00      0.00        14
+         tab       0.25      0.05      0.09        58
+     tablist       0.33      0.18      0.24        11
+    tabpanel       0.48      0.30      0.37        33
+     tooltip       1.00      0.25      0.40         8
+
+    accuracy                           0.47      1368
+   macro avg       0.35      0.22      0.24      1368
+weighted avg       0.48      0.47      0.44      1368

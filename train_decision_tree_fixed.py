@@ -7,16 +7,16 @@ import seaborn as sns
 
 # Carregar os dados preparados no "prepare_data_with_filtering.py"
 print("Carregando os dados preparados...")
-X_train = np.load('/Users/arthu/TCC2/dados_preparados/X_train.npy')
-X_test = np.load('/Users/arthu/TCC2/dados_preparados/X_test.npy')
-y_train = np.load('/Users/arthu/TCC2/dados_preparados/y_train.npy', allow_pickle=True)
-y_test = np.load('/Users/arthu/TCC2/dados_preparados/y_test.npy', allow_pickle=True)
+X_train = np.load('/Users/arthu/GitHub/TCC/dados_preparados/X_train.npy')
+X_test = np.load('/Users/arthu/GitHub/TCC/dados_preparados/X_test.npy')
+y_train = np.load('/Users/arthu/GitHub/TCC/dados_preparados/y_train.npy', allow_pickle=True)
+y_test = np.load('/Users/arthu/GitHub/TCC/dados_preparados/y_test.npy', allow_pickle=True)
 
 # Carregar nomes das features e classes
-with open('/Users/arthu/TCC2/dados_preparados/feature_names.txt', 'r') as f:
+with open('/Users/arthu/GitHub/TCC/dados_preparados/feature_names.txt', 'r') as f:
     feature_names = [line.strip() for line in f.readlines()]
 
-with open('/Users/arthu/TCC2/dados_preparados/class_names.txt', 'r') as f:
+with open('/Users/arthu/GitHub/TCC/dados_preparados/class_names.txt', 'r') as f:
     class_names = [line.strip() for line in f.readlines()]
 
 print(f"Dados carregados: {X_train.shape[0]} amostras de treino, {X_test.shape[0]} amostras de teste")
@@ -50,7 +50,7 @@ class_report = classification_report(y_test, y_pred)
 print(class_report)
 
 # Salvar o relatório em um arquivo
-with open('/Users/arthu/TCC2/relatorios/dt_report.txt', 'w') as f:
+with open('/Users/arthu/GitHub/TCC/relatorios/dt_report.txt', 'w') as f:
     f.write(f"Acurácia: {accuracy:.4f}\n\n")
     f.write("Relatório de classificação:\n")
     f.write(class_report)
@@ -63,7 +63,7 @@ plot_tree(dt_classifier,
           filled=True, 
           rounded=True, 
           max_depth=3)  # Limitar a profundidade para melhor visualização
-plt.savefig('/Users/arthu/TCC2/images/decision_tree/decision_tree.png', dpi=300, bbox_inches='tight')
+plt.savefig('/Users/arthu/GitHub/TCC/images/decision_tree/decision_tree.png', dpi=300, bbox_inches='tight')
 print("\nÁrvore de decisão salva como 'decision_tree.png'")
 
 # Criar matriz de confusão
@@ -76,7 +76,7 @@ plt.title('Matriz de Confusão')
 plt.xticks(rotation=90)
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/images/decision_tree/confusion_matrix.png')
+plt.savefig('/Users/arthu/GitHub/TCC/images/decision_tree/confusion_matrix.png')
 print("Matriz de confusão salva como 'confusion_matrix.png'")
 
 # Calcular a importância das features
@@ -95,12 +95,12 @@ plt.figure(figsize=(10, 6))
 sns.barplot(x='Importance', y='Feature', data=importance_df)
 plt.title('Importância das Features')
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/images/decision_tree/feature_importance.png')
+plt.savefig('/Users/arthu/GitHub/TCC/images/decision_tree/feature_importance.png')
 print("Gráfico de importância das features salvo como 'feature_importance.png'")
 
 # Salvar o modelo treinado
 import pickle
-with open('/Users/arthu/TCC2/modelos/decision_tree_model.pkl', 'wb') as f:
+with open('/Users/arthu/GitHub/TCC/modelos/decision_tree_model.pkl', 'wb') as f:
     pickle.dump(dt_classifier, f)
 print("\nModelo salvo como 'decision_tree_model.pkl'")
 

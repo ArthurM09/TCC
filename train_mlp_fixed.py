@@ -9,18 +9,20 @@ import time
 
 # Carregar os dados preparados no "prepare_data_for_mlp.py"
 print("Carregando os dados preparados...")
-X_train = np.load("/Users/arthu/TCC2/dados_preparados/mlp/X_train.npy")
-X_test = np.load("/Users/arthu/TCC2/dados_preparados/mlp/X_test.npy")
-y_train_encoded = np.load("/Users/arthu/TCC2/dados_preparados/mlp/y_train_encoded.npy")
-y_test_encoded = np.load("/Users/arthu/TCC2/dados_preparados/mlp/y_test_encoded.npy")
+X_train = np.load("/Users/arthu/GitHub/TCC/dados_preparados/mlp/X_train.npy")
+X_test = np.load("/Users/arthu/GitHub/TCC/dados_preparados/mlp/X_test.npy")
+y_train_encoded = np.load("/Users/arthu/GitHub/TCC/dados_preparados/mlp/y_train_encoded.npy")
+y_test_encoded = np.load("/Users/arthu/GitHub/TCC/dados_preparados/mlp/y_test_encoded.npy")
 
 # Carregar nomes das features
-with open("/Users/arthu/TCC2/dados_preparados/mlp/feature_names.txt", "r") as f:
+with open("/Users/arthu/GitHub/TCC/dados_preparados/mlp/feature_names.txt", "r") as f:
     feature_names = [line.strip() for line in f.readlines()]
 
 # Carregar nomes das classes originais (mapeamento do LabelEncoder)
 try:
-    class_names = np.load("/Users/arthu/TCC2/dados_preparados/mlp/label_encoder_classes.npy", allow_pickle=True)
+    class_names = np.load("/Users/arthu/GitHub/TCC/dados_preparados/mlp/label_encoder_classes.npy", allow_pickle=True)
+    # Converte todos os elementos para string
+    class_names = [str(name) for name in class_names]  
     print(f"Nomes das classes carregados. Total: {len(class_names)}")
 except FileNotFoundError:
     print("Erro: Arquivo label_encoder_classes.npy não encontrado. Não será possível gerar relatórios com nomes de classes.")
@@ -69,24 +71,42 @@ print(f"Acurácia: {accuracy:.4f}")
 # Gerar relatório de classificação
 print("\nRelatório de classificação:")
 if class_names is not None:
-    class_report = classification_report(y_test_encoded, y_pred_encoded, zero_division=0, target_names=class_names)
+    model_class_names = [class_names[i] for i in mlp_classifier.classes_]
+    class_report = classification_report(
+        y_test_encoded, 
+        y_pred_encoded, 
+        zero_division=0,
+        labels=mlp_classifier.classes_,
+        target_names=model_class_names 
+    )
 else:
-    class_report = classification_report(y_test_encoded, y_pred_encoded, zero_division=0)
+    class_report = classification_report(
+        y_test_encoded, 
+        y_pred_encoded, 
+        zero_division=0,
+        labels=mlp_classifier.classes_  
+    )
 print(class_report)
 
 # Salvar o relatório em um arquivo
-with open("/Users/arthu/TCC2/relatorios/mlp_report.txt", "w") as f:
+with open("/Users/arthu/GitHub/TCC/relatorios/mlp_report.txt", "w") as f:
     f.write(f"Acurácia: {accuracy:.4f}\n\n")
     f.write("Relatório de classificação:\n")
     f.write(class_report)
 
 # Criar matriz de confusão
 plt.figure(figsize=(12, 10))
+# Usar as classes do modelo como referência
+cm = confusion_matrix(
+    y_test_encoded, 
+    y_pred_encoded, 
+    labels=mlp_classifier.classes_  # Corrige o alinhamento
+)
 if class_names is not None:
-    cm = confusion_matrix(y_test_encoded, y_pred_encoded, labels=range(len(class_names)))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", 
+                xticklabels=model_class_names, 
+                yticklabels=model_class_names)
 else:
-    cm = confusion_matrix(y_test_encoded, y_pred_encoded)
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
 
 plt.xlabel("Predito")
@@ -95,11 +115,11 @@ plt.title("Matriz de Confusão - MLP")
 plt.xticks(rotation=90)
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig("/Users/arthu/TCC2/images/mlp/mlp_confusion_matrix.png")
+plt.savefig("/Users/arthu/GitHub/TCC/images/mlp/mlp_confusion_matrix.png")
 print("Matriz de confusão salva como 'mlp_confusion_matrix.png'")
 
 # Salvar o modelo treinado
-with open("/Users/arthu/TCC2/modelos/mlp_model.pkl", "wb") as f:
+with open("/Users/arthu/GitHub/TCC/modelos/mlp_model.pkl", "wb") as f:
     pickle.dump(mlp_classifier, f)
 print("\nModelo MLP salvo como 'mlp_model.pkl'")
 

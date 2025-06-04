@@ -10,7 +10,7 @@ import seaborn as sns
 import csv
 
 print("Carregando o dataset com separador vírgula e codificação utf-8-sig...")
-df = pd.read_csv('/Users/arthu/TCC2/aria_landmarks_consolidated.csv', 
+df = pd.read_csv('/Users/arthu/GitHub/TCC/aria_landmarks_consolidated.csv', 
                  encoding='utf-8-sig',
                  sep=',',
                  engine='python',
@@ -24,12 +24,25 @@ print("\nDistribuição de classes na coluna 'role':")
 role_counts = df['role'].value_counts()
 print(role_counts)
 
+# Tratar valores nulos na coluna 'role'
+print("\nVerificando nulos na coluna 'role':")
+null_roles = df['role'].isnull().sum()
+print(f"Valores nulos encontrados: {null_roles}")
+
+# Preencher nulos com 'missing'
+df['role'] = df['role'].fillna('missing')
+
 # Filtrar classes raras (com menos de 5 exemplos)
 MIN_SAMPLES = 5
+role_counts = df['role'].value_counts()  # sem nulos
 rare_classes = role_counts[role_counts < MIN_SAMPLES].index.tolist()
+
+if 'missing' not in rare_classes:
+    rare_classes.append('missing')
+
 print(f"\nClasses com menos de {MIN_SAMPLES} exemplos (serão agrupadas como 'other'):")
 for cls in rare_classes:
-    print(f"- {cls}: {role_counts[cls]} exemplos")
+    print(f"- {cls}: {role_counts.get(cls, 0)} exemplos")
 
 # Agrupar classes raras em uma categoria 'other'
 print("\nAgrupando classes raras...")
@@ -94,16 +107,16 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # Salvando os dados preparados
-np.save('/Users/arthu/TCC2/dados_preparados/X_train.npy', X_train_scaled)
-np.save('/Users/arthu/TCC2/dados_preparados/X_test.npy', X_test_scaled)
-np.save('/Users/arthu/TCC2/dados_preparados/y_train.npy', y_train.to_numpy())
-np.save('/Users/arthu/TCC2/dados_preparados/y_test.npy', y_test.to_numpy())
+np.save('/Users/arthu/GitHub/TCC/dados_preparados/X_train.npy', X_train_scaled)
+np.save('/Users/arthu/GitHub/TCC/dados_preparados/X_test.npy', X_test_scaled)
+np.save('/Users/arthu/GitHub/TCC/dados_preparados/y_train.npy', y_train.to_numpy())
+np.save('/Users/arthu/GitHub/TCC/dados_preparados/y_test.npy', y_test.to_numpy())
 
 # Salvar os nomes das features e classes para referência
-with open('/Users/arthu/TCC2/dados_preparados/feature_names.txt', 'w') as f:
+with open('/Users/arthu/GitHub/TCC/dados_preparados/feature_names.txt', 'w') as f:
     f.write('\n'.join(numeric_cols))
     
-with open('/Users/arthu/TCC2/dados_preparados/class_names.txt', 'w') as f:
+with open('/Users/arthu/GitHub/TCC/dados_preparados/class_names.txt', 'w') as f:
     f.write('\n'.join(y.unique()))
 
 print("\nDados preparados e salvos com sucesso!")
@@ -120,5 +133,5 @@ plt.xlabel('Classe')
 plt.ylabel('Contagem')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('/Users/arthu/TCC2/images/class_distribution.png')
+plt.savefig('/Users/arthu/GitHub/TCC/images/class_distribution.png')
 print("\nGráfico de distribuição de classes salvo como 'class_distribution.png'")

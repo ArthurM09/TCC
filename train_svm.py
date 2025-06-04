@@ -9,16 +9,16 @@ import time
 
 # Carregar os dados preparados no "prepare_data_with_filtering.py"
 print("Carregando os dados preparados...")
-X_train = np.load('/Users/arthu/TCC2/dados_preparados/X_train.npy')
-X_test = np.load('/Users/arthu/TCC2/dados_preparados/X_test.npy')
-y_train = np.load('/Users/arthu/TCC2/dados_preparados/y_train.npy', allow_pickle=True)
-y_test = np.load('/Users/arthu/TCC2/dados_preparados/y_test.npy', allow_pickle=True)
+X_train = np.load('/Users/arthu/GitHub/TCC/dados_preparados/X_train.npy')
+X_test = np.load('/Users/arthu/GitHub/TCC/dados_preparados/X_test.npy')
+y_train = np.load('/Users/arthu/GitHub/TCC/dados_preparados/y_train.npy', allow_pickle=True)
+y_test = np.load('/Users/arthu/GitHub/TCC/dados_preparados/y_test.npy', allow_pickle=True)
 
 # Carregar nomes das features e classes
-with open("/Users/arthu/TCC2/dados_preparados/feature_names.txt", "r") as f:
+with open("/Users/arthu/GitHub/TCC/dados_preparados/feature_names.txt", "r") as f:
     feature_names = [line.strip() for line in f.readlines()]
 
-with open("/Users/arthu/TCC2/dados_preparados/class_names.txt", "r") as f:
+with open("/Users/arthu/GitHub/TCC/dados_preparados/class_names.txt", "r") as f:
     class_names = [line.strip() for line in f.readlines()]
 
 print(f"Dados carregados: {X_train.shape[0]} amostras de treino, {X_test.shape[0]} amostras de teste")
@@ -59,7 +59,7 @@ class_report = classification_report(y_test, y_pred, zero_division=0)
 print(class_report)
 
 # Salvar o relatório em um arquivo
-with open("/Users/arthu/TCC2/relatorios/svm_report.txt", "w") as f:
+with open("/Users/arthu/GitHub/TCC/relatorios/svm_report.txt", "w") as f:
     f.write(f"Acurácia: {accuracy:.4f}\n\n")
     f.write("Relatório de classificação:\n")
     f.write(class_report)
@@ -74,11 +74,11 @@ plt.title("Matriz de Confusão - SVM")
 plt.xticks(rotation=90)
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig("/Users/arthu/TCC2/images/svm/svm_confusion_matrix.png")
+plt.savefig("/Users/arthu/GitHub/TCC/images/svm/svm_confusion_matrix.png")
 print("Matriz de confusão salva como 'svm_confusion_matrix.png'")
 
 # Salvar o modelo treinado
-with open("/Users/arthu/TCC2/modelos/svm_model.pkl", "wb") as f:
+with open("/Users/arthu/GitHub/TCC/modelos/svm_model.pkl", "wb") as f:
     pickle.dump(svm_classifier, f)
 print("\nModelo SVM salvo como 'svm_model.pkl'")
 
