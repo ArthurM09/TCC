@@ -4,3 +4,6 @@ height
 width
 childs_count
 word_count
+area
+aspect_ratio
+is_top_level_tag

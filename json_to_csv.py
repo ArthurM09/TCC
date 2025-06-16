@@ -50,12 +50,12 @@ if all_data:
     # Filtrar elementos com 'role' válido
     df = df[df['role'].notna()]
     
-    # Salvar CSV
+    # Salvar CSV com formatação amigável para o Excel
     df.to_csv(
         output_csv,
         index=False,
-        encoding='utf-8-sig',  
-        quoting=csv.QUOTE_ALL, 
+        encoding='utf-8-sig',  # Codificação com BOM para Excel
+        quoting=csv.QUOTE_ALL,  # Aspas em todos os campos
         quotechar='"',
         escapechar='\\'
     )

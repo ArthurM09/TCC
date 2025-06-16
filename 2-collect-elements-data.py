@@ -1,9 +1,6 @@
-import sys, json, re, os
+import sys, json, time, re, os
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, WebDriverException
 
 urls = None
 url = None
@@ -27,31 +24,21 @@ else:
 
 DOM_collector = '''
 let all = [];
-function count_words(el) {
-    // Melhorado: Captura o texto direto do elemento e também dos filhos terminais
-    // Isso fornece uma contagem de palavras mais precisa
-    const text = el.textContent.trim();
-    if (!text) return 0;
-    
-    // Contar palavras no texto direto
-    const wordCount = text.split(/\\s+/).filter(word => word.length > 0).length;
-    
-    // Contar elementos filhos terminais (sem filhos próprios)
-    const terminalChilds = Array.from(el.querySelectorAll('*')).filter(child => 
-        child.children.length === 0 && child.textContent.trim().length > 0
-    );
-    
-    // Se não houver texto nem filhos terminais, retorna 0
-    if (wordCount === 0 && terminalChilds.length === 0) return 0;
-    
-    // Se houver apenas texto direto sem filhos terminais, retorna a contagem de palavras
-    if (terminalChilds.length === 0) return wordCount;
-    
-    // Caso contrário, retorna a média de palavras por elemento (incluindo o próprio elemento)
-    return wordCount / (terminalChilds.length + 1);
+function count_words (el) {
+    const childs = el.querySelectorAll('*');
+    let childs_count = 0,
+        word_count = 0;
+    for (let i = 0; i < childs.length; i++) {
+        const target = childs[i];
+        if (target.children.length === 0) {
+            childs_count++;
+            word_count += target.textContent.split(' ').length;
+        }
+    }
+    if (childs_count === 0) return 0;
+    return word_count / childs_count;
 }
-
-function offset(el) {
+function offset (el) {
     const rect = el.getBoundingClientRect(),
           win = el.ownerDocument.defaultView;
     return {
@@ -59,15 +46,13 @@ function offset(el) {
         left: rect.left + win.pageXOffset
     };
 }
-
-function dimension(el) {
+function dimension (el) {
     return {
         height: (el.offsetHeight ? el.offsetHeight : 0),
         width: (el.offsetWidth ? el.offsetWidth : 0)
     };
 }
-
-function landmark_parent(el) {
+function landmark_parent (el) {
     if (!el)
         return false;
     const tagname = el.tagName.toLowerCase();
@@ -81,10 +66,9 @@ function landmark_parent(el) {
     if (role) {
         return role;
     }
-    return landmark_parent(el.parentElement);
+    return landmark_parent (el.parentElement);
 }
-
-function label_for(el) {
+function label_for (el) {
     const labelledby = el.getAttribute('aria-labelledby'),
           label = el.getAttribute('aria-label'),
           title = el.getAttribute('title');
@@ -94,8 +78,7 @@ function label_for(el) {
     }
     return false;
 }
-
-function get_xpath(target) {
+function get_xpath (target) {
     var xpath = '', tagName, parent = target.parentElement,
         index, children;
     while (parent != null) {
@@ -108,8 +91,7 @@ function get_xpath(target) {
     };
     return xpath;
 }
-
-function calculate_weighted_avg(el, attr_call, weight) {
+function calculate_weighted_avg (el, attr_call, weight) {
    let childs = Array.from(el.children),
        weighted_sum = 0,
        size = childs.length;
@@ -122,7 +104,6 @@ function calculate_weighted_avg(el, attr_call, weight) {
 
     return { weighted_sum, size, weighted_avg: weighted_sum / size };
 }
-
 return Array.from(document.body.querySelectorAll('*')).map((el) => {
     const position = offset(el);
     const tags = [
@@ -220,29 +201,6 @@ return Array.from(document.body.querySelectorAll('*')).map((el) => {
 output_dir = './2-output-urls-data'
 os.makedirs(output_dir, exist_ok=True)
 
-# Espera o carregamento completo da página
-def wait_for_page_load(driver, timeout=60):
-    try:
-        WebDriverWait(driver, timeout).until(
-            lambda d: d.execute_script('return document.readyState') == 'complete'
-        )
-        return True
-    except TimeoutException:
-        print(" - Timeout esperando pelo carregamento completo da página")
-        return False
-
-# Espera que elementos específicos estejam presentes
-def wait_for_elements(driver, timeout=30):
-    try:
-        # Esperar por elementos comuns em páginas web
-        WebDriverWait(driver, timeout).until(
-            EC.presence_of_element_located((By.TAG_NAME, "body"))
-        )
-        return True
-    except TimeoutException:
-        print(" - Timeout esperando por elementos na página")
-        return False
-
 for i, url in enumerate(urls, start=1):
     if i < start:
         print('already visited %d - http://www.%s' % (i, url))
@@ -267,45 +225,20 @@ for i, url in enumerate(urls, start=1):
                 driver.set_script_timeout(30)
                 driver.get('http://%s' % (url))
 
-                # Espera o carregamento da página (substitui time.sleep(10))
-                if not wait_for_page_load(driver):
-                    raise TimeoutException("Página não carregou completamente")
-                
-                # Espera por elementos na página (substitui time.sleep(10))
-                if not wait_for_elements(driver):
-                    raise TimeoutException("Elementos não encontrados na página")
-                
-                # Obtem altura da página e redimensiona a janela
+                time.sleep(10)
                 height = driver.execute_script(
                     ''' var body = document.body, html = document.documentElement;
                         return Math.max(body.scrollHeight, body.offsetHeight,
                                         html.clientHeight, html.scrollHeight,
                                         html.offsetHeight)''')
                 driver.set_window_size(1080, height)
-                
-                # Espera que o redimensionamento seja aplicado (substitui time.sleep(10))
-                WebDriverWait(driver, 10).until(
-                    lambda d: d.execute_script('return window.innerHeight') > 0
-                )
-                
-                # Manipulação menos agressiva de scripts/timers
-                # Em vez de limpar todos os timers e parar a página, apenas pausar as animações
-                driver.execute_script('''
-                    document.body.classList.add('stop-animations');
-                    document.body.style.setProperty('--animation-play-state', 'paused', 'important');
-                    document.body.style.setProperty('animation-play-state', 'paused', 'important');
-                    
-                    const mediaElements = document.querySelectorAll('video, audio');
-                    mediaElements.forEach(media => {
-                        if (!media.paused) {
-                            media.pause();
-                        }
-                    });
-                ''')
-                
-                WebDriverWait(driver, 5).until(
-                    lambda d: True  # pequena pausa controlada
-                )
+                time.sleep(10)
+                driver.execute_script('''for (var i = 0; i < 1000000; i++) {
+                                            clearTimeout(i);
+                                            clearInterval(i);
+                                         }
+                                         window.stop(); ''')
+                time.sleep(10)
 
                 match = re.search(r"/(\d+)/", url)
                 if match:
@@ -320,17 +253,9 @@ for i, url in enumerate(urls, start=1):
                 f.write(json.dumps(el_data))
                 f.close()
 
-                count = 5  
-            except TimeoutException as err:
-                print(' - Timeout error - trying again')
-                print(err)
-                count = count + 1
-            except WebDriverException as err:
-                print(' - WebDriver error - trying again')
-                print(err)
-                count = count + 1
+                count = 5
             except Exception as err:
-                print(' - Unexpected error - trying again')
+                print(' - error - trying again')
                 print(err)
                 count = count + 1
 

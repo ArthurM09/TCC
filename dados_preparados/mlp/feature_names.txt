@@ -1,6 +1,0 @@
-top
-left
-height
-width
-childs_count
-word_count

@@ -1,0 +1,22 @@
+Algoritmo,Classe,Precisão,Recall,F1-Score,Support
+Árvore de Decisão,banner,0.71,0.83,0.77,6
+Árvore de Decisão,contentinfo,1.0,0.75,0.86,4
+Árvore de Decisão,main,1.0,0.33,0.5,6
+Árvore de Decisão,navigation,0.0,0.0,0.0,5
+Árvore de Decisão,other_landmark,0.0,0.0,0.0,1
+Árvore de Decisão,region,0.74,0.96,0.83,26
+Árvore de Decisão,search,0.67,0.75,0.71,8
+SVM,banner,0.4,0.33,0.36,6
+SVM,contentinfo,1.0,0.5,0.67,4
+SVM,main,1.0,0.17,0.29,6
+SVM,navigation,0.0,0.0,0.0,5
+SVM,other_landmark,0.0,0.0,0.0,1
+SVM,region,0.54,1.0,0.7,26
+SVM,search,0.0,0.0,0.0,8
+MLP,banner,0.0,0.0,0.0,6
+MLP,contentinfo,0.5,0.75,0.6,4
+MLP,main,0.0,0.0,0.0,6
+MLP,navigation,0.08,0.2,0.12,5
+MLP,other_landmark,0.0,0.0,0.0,1
+MLP,region,0.53,0.77,0.62,26
+MLP,search,0.0,0.0,0.0,8
